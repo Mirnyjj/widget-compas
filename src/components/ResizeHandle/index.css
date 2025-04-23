@@ -1,0 +1,70 @@
+/* Стили для изменения размера */
+.resize-handle {
+    position: absolute;
+    background: transparent;
+    z-index: 10;
+  }
+  
+  .resize-n {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    cursor: ns-resize;
+  }
+  
+  .resize-e {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 5px;
+    cursor: ew-resize;
+  }
+  
+  .resize-s {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    cursor: ns-resize;
+  }
+  
+  .resize-w {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 5px;
+    cursor: ew-resize;
+  }
+  
+  .resize-ne {
+    top: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    cursor: nesw-resize;
+  }
+  
+  .resize-nw {
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    cursor: nwse-resize;
+  }
+  
+  .resize-se {
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    cursor: nwse-resize;
+  }
+  
+  .resize-sw {
+    bottom: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    cursor: nesw-resize;
+  }
