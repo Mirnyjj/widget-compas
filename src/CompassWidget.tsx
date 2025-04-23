@@ -31,6 +31,25 @@ const WindDirectionWidget: React.FC<WindDirectionWidgetProps> = ({
   const [startPos, setStartPos] = useState({x: 0, y: 0});
   const [startSize, setStartSize] = useState({width: 0, height: 0});
   const widgetRef = useRef<HTMLDivElement>(null);
+  const [maximized, setMaximized] = useState(false);
+
+  const onOpenWindow = () => {
+    if (maximized) {
+      setSize(defaultSize);
+      setPosition(defaultPosition);
+    } else {
+      setSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+
+      setPosition({
+        x: 0,
+        y: 0,
+      });
+    }
+    setMaximized(!maximized);
+  };
 
   function getRotationDegree(min: number, max: number) {
     return Math.random() * (max - min) + min;
@@ -55,10 +74,10 @@ const WindDirectionWidget: React.FC<WindDirectionWidgetProps> = ({
 
     const widgetRect = widgetRef.current?.getBoundingClientRect();
     if (!widgetRect) return;
-
+    console.log(widgetRect);
     setStartPos({
-      x: e.clientX - widgetRect.left,
-      y: e.clientY - widgetRect.top,
+      x: e.pageX - widgetRect.left,
+      y: e.pageY - widgetRect.top,
     });
 
     document.addEventListener('mousemove', handleDrag);
@@ -187,15 +206,15 @@ const WindDirectionWidget: React.FC<WindDirectionWidgetProps> = ({
         height: `${size.height}px`,
         cursor: resizeMode ? getResizeCursor(resizeMode) : 'move',
       }}
-      onMouseDown={handleDragStart}>
+      onMouseDown={maximized ? undefined : handleDragStart}>
       <div className='title_btn_wrapper'>
         <div className='wind-title'>{title}</div>
-        <button className='button_sizes'>
+        <button className='button_sizes' onClick={onOpenWindow}>
           <img src={SizeButton} />
         </button>
       </div>
       <div className='compass'>
-        <div className='compass-rose'>
+        <div className={maximized ? 'compass-rose-zoom' : 'compass-rose'}>
           <div className='wrapper_line'>
             <div className='line vertical_direction_line' />
             <div className='line horizontal_direction_line' />
@@ -220,38 +239,42 @@ const WindDirectionWidget: React.FC<WindDirectionWidgetProps> = ({
           <div className='wind-speed'>{currentSpeed}</div>
         </div>
       </div>
-      <div
-        className='resize-handle resize-n'
-        onMouseDown={e => handleResizeStart(e, 'n')}
-      />
-      <div
-        className='resize-handle resize-e'
-        onMouseDown={e => handleResizeStart(e, 'e')}
-      />
-      <div
-        className='resize-handle resize-s'
-        onMouseDown={e => handleResizeStart(e, 's')}
-      />
-      <div
-        className='resize-handle resize-w'
-        onMouseDown={e => handleResizeStart(e, 'w')}
-      />
-      <div
-        className='resize-handle resize-ne'
-        onMouseDown={e => handleResizeStart(e, 'ne')}
-      />
-      <div
-        className='resize-handle resize-nw'
-        onMouseDown={e => handleResizeStart(e, 'nw')}
-      />
-      <div
-        className='resize-handle resize-se'
-        onMouseDown={e => handleResizeStart(e, 'se')}
-      />
-      <div
-        className='resize-handle resize-sw'
-        onMouseDown={e => handleResizeStart(e, 'sw')}
-      />
+      {!maximized && (
+        <>
+          <div
+            className='resize-handle resize-n'
+            onMouseDown={e => handleResizeStart(e, 'n')}
+          />
+          <div
+            className='resize-handle resize-e'
+            onMouseDown={e => handleResizeStart(e, 'e')}
+          />
+          <div
+            className='resize-handle resize-s'
+            onMouseDown={e => handleResizeStart(e, 's')}
+          />
+          <div
+            className='resize-handle resize-w'
+            onMouseDown={e => handleResizeStart(e, 'w')}
+          />
+          <div
+            className='resize-handle resize-ne'
+            onMouseDown={e => handleResizeStart(e, 'ne')}
+          />
+          <div
+            className='resize-handle resize-nw'
+            onMouseDown={e => handleResizeStart(e, 'nw')}
+          />
+          <div
+            className='resize-handle resize-se'
+            onMouseDown={e => handleResizeStart(e, 'se')}
+          />
+          <div
+            className='resize-handle resize-sw'
+            onMouseDown={e => handleResizeStart(e, 'sw')}
+          />
+        </>
+      )}
     </div>
   );
 };
